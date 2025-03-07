@@ -63,3 +63,41 @@ static void IntroToClasses()
         Console.WriteLine(e.ToString());
     }
 }
+//THIS IS THE MIDTERM THAT WAS ADDED
+// Create a new CD account with a 6-month term and 5% interest rate
+var myCD = new CD("John Doe", 1000m, 0.05m, 6);
+
+// Try to perform month-end transactions (interest should not be applied yet)
+Console.WriteLine("Before maturity:");
+myCD.PerformMonthEndTransactions();
+Console.WriteLine($"Balance after first month-end: {myCD.Balance}");
+
+// Simulate waiting until maturity
+System.Threading.Thread.Sleep(2000); // Wait for 2 seconds to simulate passage of time
+
+// Now try again after maturity
+Console.WriteLine("\nAfter maturity:");
+myCD.PerformMonthEndTransactions();
+Console.WriteLine($"Balance after maturity: {myCD.Balance}");
+
+// Test withdrawal after maturity
+try
+{
+    myCD.MakeWithdrawal(500m, DateTime.Now, "Withdrawal after maturity");
+    Console.WriteLine($"Balance after withdrawal: {myCD.Balance}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine(ex.Message);
+}
+
+// Test withdrawal before maturity (this should throw an exception)
+try
+{
+    var earlyWithdrawal = new CD("John Doe", 1000m, 0.05m, 6);
+    earlyWithdrawal.MakeWithdrawal(500m, DateTime.Now, "Early Withdrawal");
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Error: {ex.Message}");
+}
